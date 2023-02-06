@@ -1,0 +1,16 @@
+model,variable,change in Gt,change in %,confidence (1-p)
+MAR6,sn,58,7.9,0.90
+MAR6,rf,20,36.1,0.99
+MAR6,tp,79,9.8,0.96
+RACMO5,sf,-7,-0.0,0.16
+RACMO5,rf,8,0.2,0.87
+RACMO5,tp,1,0.0,0.02
+NHM-SMAP,sf,48,0.1,0.68
+NHM-SMAP,rf,19,0.5,0.98
+NHM-SMAP,tp,66,0.1,0.81
+JRA,sf,41,0.1,0.76
+JRA,rf,23,0.4,0.99
+JRA,tp,64,0.1,0.90
+ERA5,sf,31,0.0,0.58
+ERA5,rf,11,0.3,0.95
+ERA5,tp,42,0.1,0.71
