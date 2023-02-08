@@ -8,15 +8,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 from netCDF4 import Dataset
-AD=0
-if AD:
-    os.environ['PROJ_LIB'] = r'C:/Users/Armin/Anaconda3/pkgs/proj4-5.2.0-ha925a31_1/Library/share' #Armin needed to not get an error with import basemap: see https://stackoverflow.com/questions/52295117/basemap-import-error-in-pycharm-keyerror-proj-lib
+AD=1
+# if AD:
+    # os.environ['PROJ_LIB'] = r'C:/Users/Armin/Anaconda3/pkgs/proj4-5.2.0-ha925a31_1/Library/share' #Armin needed to not get an error with import basemap: see https://stackoverflow.com/questions/52295117/basemap-import-error-in-pycharm-keyerror-proj-lib
 import pandas as pd
 from numpy.polynomial.polynomial import polyfit
 from scipy import stats
 
 path='/Users/jason/Dropbox/CARRA/CARRA_rain/'
-if AD:path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA_rain/'
+if AD:path='/home/rmean/Dokumente/Work/GEUS/CARRA_rain/'
 os.chdir(path)
 
 #---------------- global plot settings
@@ -67,15 +67,26 @@ if no_resampling:
     # # MAR.drop(MAR.tail(2).index,inplace = True)
 
 # MAR new resampled
+# if resampling: 
+#     fn=path+'RCM_annual_precip/MAR_1950to2020_yearly.csv'
+#     MAR=pd.read_csv(fn, skiprows=8) 
+#     MAR.columns = ['year','sn_6','rf_6','tp_6','sn_10','rf_10','tp_10','sn_15','rf_15','tp_15','sn_20','rf_20','tp_20']
+#     MAR_ress=[6]#,10,15,20]
+#     #for stats
+#     MAR_sf_stats=MAR.sn_6[MAR.year>=t0]
+#     MAR_rf_stats=MAR.rf_6[MAR.year>=t0]
+#     MAR_tp_stats=MAR.tp_6[MAR.year>=t0]
+    
+# MAR new resampled -> v3.13
 if resampling: 
-    fn=path+'RCM_annual_precip/MAR_1950to2020_yearly.csv'
+    fn=path+'RCM_annual_precip/MARv3.13.0_1950to2020_yearly.csv'
     MAR=pd.read_csv(fn, skiprows=8) 
-    MAR.columns = ['year','sn_6','rf_6','tp_6','sn_10','rf_10','tp_10','sn_15','rf_15','tp_15','sn_20','rf_20','tp_20']
-    MAR_ress=[6]#,10,15,20]
+    MAR.columns = ['year','sf_15','rf_15','tp_15']
+    MAR_ress=[15]#,10,15,20]
     #for stats
-    MAR_sf_stats=MAR.sn_6[MAR.year>=t0]
-    MAR_rf_stats=MAR.rf_6[MAR.year>=t0]
-    MAR_tp_stats=MAR.tp_6[MAR.year>=t0]
+    MAR_sf_stats=MAR.sf_15[MAR.year>=t0]
+    MAR_rf_stats=MAR.rf_15[MAR.year>=t0]
+    MAR_tp_stats=MAR.tp_15[MAR.year>=t0]
 
 
 #----------------------------------------------- JRA-55
@@ -297,9 +308,11 @@ if C_trend==0:
     
 
 #----------------------------------------------- MAR
-RCM_name='MAR 3.11.5'
+# RCM_name='MAR 3.11.5'
+RCM_name='MAR 3.13.0'
 RCM_name='MAR'
-vars=['sn','rf','tp']
+vars=['sf','rf','tp']
+# vars=['sn','rf','tp']
 colors=['b','k','c','grey']
 for i,var in enumerate(vars):
     for j,res in enumerate(MAR_ress):
