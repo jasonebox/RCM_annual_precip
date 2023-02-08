@@ -14,15 +14,15 @@ from scipy.spatial import cKDTree
 import matplotlib.pyplot as plt
 
 AW = 0
-AD=0
+AD=1
 
 # if AW:
 #     base_path = 'C:/Users/Pascal/Desktop/GEUS_2019/SICE_AW_JEB/SICE_AW_JEB/'\
 #     + 'CARRA_rain/'
 if AD:
-    base_path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA_rain/'
-    raw_path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA/'
-    path_tools='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA_tools/'
+    base_path='/home/rmean/Dokumente/Work/GEUS/CARRA_rain/'
+    raw_path='/home/rmean/Dokumente/Work/GEUS/CARRA/'
+    path_tools='/home/rmean/Dokumente/Work/GEUS/CARRA_tools/'
 else:
     base_path = '/Users/jason/Dropbox/CARRA/CARRA_rain/'
     path_tools='/Users/jason/Dropbox/CARRA/CARRA_tools/'
@@ -83,14 +83,15 @@ CARRA_positions = pd.DataFrame({'rowc': rows.ravel(),
                                 'maskc': mask.flatten()})
 
 #import CARRA datset
-ds = xr.open_dataset(raw_path+'tp_2012.nc')
-CARRA_data = np.array(ds.tp[0, :, :]).flatten()
+# ds = xr.open_dataset(raw_path+'tp_2012.nc')
+# CARRA_data = np.array(ds.tp[0, :, :]).flatten()
 
 # %% load MAR coordinates 
 
 #MAR data
 # fn=raw_path+'MARv3.11.5-6km.nc'
-fn='/Users/jason/0_dat/MARv3.13.0/withBS/MARv3.13.0-15km-daily-ERA5-1960.nc'
+fn=raw_path+'withBS/MARv3.13.0-15km-daily-ERA5-1960.nc'
+# fn='/Users/jason/0_dat/MARv3.13.0/withBS/MARv3.13.0-15km-daily-ERA5-1960.nc'
 # fn=raw_path+'MARv3.11.5-20km.nc'
 ds=xr.open_dataset(fn)
 
