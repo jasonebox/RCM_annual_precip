@@ -24,14 +24,14 @@ import xarray as xr
 
 
 #%%
-AD=0
+AD=1
 
 
 path='/Users/jason/Dropbox/CARRA/CARRA_rain/'
 if AD:
-    path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA_rain/'
-    raw_path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA/'
-    tool_path='C:/Users/Armin/Documents/Work/GEUS/Github/CARRA_tools/'
+    path='/home/rmean/Dokumente/Work/GEUS/CARRA_rain/'
+    raw_path='/home/rmean/Dokumente/Work/GEUS/CARRA/'
+    tool_path='/home/rmean/Dokumente/Work/GEUS/CARRA_tools/'
 else:
     tool_path='/Users/jason/Dropbox/CARRA/CARRA_tools/'
     
@@ -67,20 +67,21 @@ maskC=mask.copy()
 # fn=raw_path+'./MARv3.11.5-6km.nc'
 # fn=raw_path+'./MARv3.11.5-10km.nc'
 # fn=raw_path+'./MARv3.11.5-15km.nc'
-fn=raw_path+'./MARv3.11.5-20km.nc'
-fn='/Users/jason/0_dat/MARv3.13.0/withBS/MARv3.13.0-15km-daily-ERA5-1960.nc'
+# fn=raw_path+'./MARv3.11.5-20km.nc'
+fn=raw_path+'withBS/MARv3.13.0-withBS-15km-yearly-ERA5-1950-2020_v5.nc' 
+# fn='/Users/jason/0_dat/MARv3.13.0/withBS/MARv3.13.0-15km-daily-ERA5-1960.nc'
 ds=xr.open_dataset(fn)
-sf=ds.SF[:,:,:].values # mmWE/yr
-rf=ds.RF[:,:,:].values # mmWE/yr
-time=ds.SF.TIME.values
+sf=ds.sf[:,:,:].values # mmWE/yr
+rf=ds.rf[:,:,:].values # mmWE/yr
+time=ds.sf.time.values
 
 print(ds.variables)
 #%%
 ni=np.shape(sf)[1]
 nj=np.shape(sf)[2]
 
-lon=ds.LON.values
-lat=ds.LAT.values
+lon=ds.lon.values
+lat=ds.lat.values
 # lon_mesh, lat_mesh = np.meshgrid(lon, lat)
 
 # ERA5 data into CARRA grid
@@ -122,11 +123,14 @@ rf_mean2=rf_mean *areax /1e12
 
 #%% produce Dataframe
 df_out=pd.DataFrame(time,columns= ['year'])
-df_out["sf_15km"]=np.sum(sf_mean2,axis=0)
-df_out["rf_15km"]=np.sum(rf_mean2,axis=0)
-df_out["tp_15km"]=np.sum(df_out.rf_15km,axis=0) + np.sum(df_out.sf_15km,axis=0)
+# df_out["sf_15km"]=np.sum(sf_mean2,axis=0)
+# df_out["rf_15km"]=np.sum(rf_mean2,axis=0)
+# df_out["tp_15km"]=np.sum(df_out.rf_15km,axis=0) + np.sum(df_out.sf_15km,axis=0)
+df_out["sf_15km"]=sf_mean2
+df_out["rf_15km"]=rf_mean2
+df_out["tp_15km"]=df_out.rf_15km+ df_out.sf_15km
 
-df_out.to_csv(path+'RCM_annual_precip/MAR_1960_yearly.csv', index=False)
+df_out.to_csv(path+'RCM_annual_precip/MARv3.13.0_1950to2020_yearly.csv', index=False)
 
 
 
